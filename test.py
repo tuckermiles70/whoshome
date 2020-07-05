@@ -7,6 +7,8 @@ known_macs = {
     '88:19:08:2C:EE:BD' : 'Hayden'
 }
 
+connected_macs = []
+
 #First, you need a Postscanner object that will be used to do the scan
 nm = nmap.PortScanner()
 #You can then do a scan of all the IPV4 addresses provided by the network you are connected to
@@ -26,5 +28,12 @@ for host in nm.all_hosts():
         try:
             mac = nm[host]['addresses']['mac']
         except:
-            mac = 'unknown'
-        print("mac {} is connected".format(mac))
+            continue
+            # mac = 'unknown'
+
+        # print("mac {} is connected".format(mac))
+        connected_macs.append(mac)
+        
+for mac in connected_macs:
+    if mac in known_macs:
+        print("{} is connected".format(known_macs[mac]))
