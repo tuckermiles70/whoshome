@@ -23,17 +23,17 @@ for index, host in enumerate(known_macs):
 print()
 
 for host in nm.all_hosts():
-    # print(nm[host])
+    print(nm[host])
     if (nm[host]['status']['state'] == "up"):
         try:
             mac = nm[host]['addresses']['mac']
         except:
-            continue
-            # mac = 'unknown'
+            # continue
+            mac = 'unknown'
 
-        # print("mac {} is connected".format(mac))
+        print("mac {} is connected".format(mac))
         connected_macs.append(mac)
         
-for mac in connected_macs:
-    if mac in known_macs:
-        print("{} is connected".format(known_macs[mac]))
+# for mac in connected_macs:
+#     if mac in known_macs:
+#         print("{} is connected".format(known_macs[mac]))
