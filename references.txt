@@ -3,4 +3,6 @@ https://www.reddit.com/r/learnpython/comments/2xtr69/filtering_mac_addresses_usi
 https://www.studytonight.com/network-programming-in-python/integrating-port-scanner-with-nmap
 
 be sure to show how to install nmap and stuff. SO dar I have installed:
-1. nmap installed on pc (https://nmap.org/book/inst-windows.html) and on pip
+1. nmap installed on pc (https://nmap.org/book/inst-windows.html) and on pip ("pip install python-nmap")
+
+2. this script must be run as sudo
