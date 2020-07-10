@@ -17,12 +17,16 @@ known_macs = {
 
 people = []
 connected_macs = []
+active_people = []
+away_people = []
 # This var will hold the people who are connected. Add people to this if they show up as connected in "if person.MAC in connected_macs:" by using the "in" keyword
 # Remove them if disconnected
-activeusers = []
+
 
 for mac, name in known_macs.items():
     people.append(Person(name, mac))
+
+away_people = people[:]
 
 print('Registered People:')
 for person in people:
@@ -38,8 +42,9 @@ nm = nmap.PortScanner()
 # Change this to your machine's IPV4, could be 192.168.1...etc
 # https://askubuntu.com/questions/377787/how-to-scan-an-entire-network-using-nmap
 
+iteration = 1
 while True:
-    print('top of loop...')
+    print('Iteration {}'.format(iteration))
     nm.scan(hosts = '10.0.0.180/24', arguments = '-sn')
 
     for host in nm.all_hosts():
@@ -57,11 +62,26 @@ while True:
     for person in people:
         if person.MAC in connected_macs:
             person.disconnectedloops = 0
-            print('{} is connected'.format(person.name))
+            if person not in active_people:
+                active_people.append(person)
+            if person in away_people:
+                away_people.remove(person)
+            # print('{} is connected'.format(person.name))
         else:
+            if person.disconnectedloops > 10:
+                if person not in away_people:
+                    away_people.append(person)
             person.disconnectedloops += 1
-            print('{} has been disconnected for {} loops'.format(person.name, person.disconnectedloops))
+            # print('{} has been disconnected for {} loops'.format(person.name, person.disconnectedloops))
 
+    print('Connected Users:')
+    for person in active_people:
+        print(person.name)
+
+    print('Disconnected Users:')
+    for person in away_people:
+        print(person.name)
     print()
     print()
+    iteration += 1
 # possibly send a text, an email, some sort of alert when a specified mac address is connected 
