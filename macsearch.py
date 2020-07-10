@@ -42,6 +42,9 @@ nm = nmap.PortScanner()
 # Change this to your machine's IPV4, could be 192.168.1...etc
 # https://askubuntu.com/questions/377787/how-to-scan-an-entire-network-using-nmap
 
+
+# Took 1:38 for 10 iterations
+# need to figure out how I should remove people from active list when signal hasn't been received in a while
 iteration = 1
 while True:
     print('Iteration {}'.format(iteration))
