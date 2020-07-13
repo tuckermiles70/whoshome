@@ -73,7 +73,7 @@ while True:
                 active_people.append(person)
             if person in away_people:
                 away_people.remove(person)
-            # print('{} is connected'.format(person.name))
+            print('{} is connected'.format(person.name))
         else:
             if person.disconnectedloops > 10:
                 if person not in away_people:
