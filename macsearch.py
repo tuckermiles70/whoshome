@@ -3,11 +3,10 @@ import nmap
 # http://iltabiai.github.io/home%20automation/2015/09/11/npm-roommates.html
 
 class Person:
-    def __init__(self, name, MAC, disconnectedloops=0):
+    def __init__(self, name, MAC, disconnectedloops=-1):
         self.name = name
         self.disconnectedloops = disconnectedloops
         self.MAC = MAC
-        self.connectiontime = 0
 
 known_macs = {
     '18:F1:D8:96:AC:AD' : 'Tucker',
@@ -73,10 +72,16 @@ while True:
     # The issue is that once you go into the active people list, you never get out.
     for person in people:
         if person.MAC in connected_macs:
-            person.connectiontime = time.time()
+            if person.disconnectedloops > 10 or person.disconnectedloops == -1:
+                # meaning they've been disconnected for a while or have never connected, so notify that they've connected
+                # possibly send a text, an email, some sort of alert when a specified mac address is connected 
+                pass
+
             person.disconnectedloops = 0
+
             if person not in active_people:
                 active_people.append(person)
+
             if person in away_people:
                 away_people.remove(person)
             # print('{} is connected'.format(person.name))
@@ -90,15 +95,12 @@ while True:
 
     print('Connected Users:')
     for person in active_people:
-        # print('{} most recently connected at {}'.format(person.name, person.connectiontime))
         print(person.name)
 
     print('Disconnected Users:')
     for person in away_people:
-        # print('{} most recently connected at {}'.format(person.name, person.connectiontime))
         print(person.name)
 
     print()
     print()
     iteration += 1
-# possibly send a text, an email, some sort of alert when a specified mac address is connected 
