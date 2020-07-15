@@ -1,5 +1,4 @@
 import nmap
-import time
 
 # http://iltabiai.github.io/home%20automation/2015/09/11/npm-roommates.html
 
@@ -52,6 +51,8 @@ while True:
     print('Iteration {}'.format(iteration))
     nm.scan(hosts = '10.0.0.180/24', arguments = '-sn')
 
+
+    connected_macs = []
     for host in nm.all_hosts():
         # print(nm[host])
         if (nm[host]['status']['state'] == "up"):
@@ -63,6 +64,11 @@ while True:
             # print("MAC {} is connected".format(mac))
             connected_macs.append(mac)
 
+    print('Post nmap search registered users in connected_macs on this iteration:\n')
+    for person in people:
+        if person.MAC in connected_macs:
+            print(person.name)
+    print()
 
     # The issue is that once you go into the active people list, you never get out.
     for person in people:
@@ -73,21 +79,24 @@ while True:
                 active_people.append(person)
             if person in away_people:
                 away_people.remove(person)
-            print('{} is connected'.format(person.name))
+            # print('{} is connected'.format(person.name))
         else:
             if person.disconnectedloops > 10:
                 if person not in away_people:
+                    active_people.remove(person)
                     away_people.append(person)
             person.disconnectedloops += 1
             # print('{} has been disconnected for {} loops'.format(person.name, person.disconnectedloops))
 
     print('Connected Users:')
     for person in active_people:
-        print('{} most recently connected at {}'.format(person.name, person.connectiontime))
+        # print('{} most recently connected at {}'.format(person.name, person.connectiontime))
+        print(person.name)
 
     print('Disconnected Users:')
     for person in away_people:
-        print('{} most recently connected at {}'.format(person.name, person.connectiontime))
+        # print('{} most recently connected at {}'.format(person.name, person.connectiontime))
+        print(person.name)
 
     print()
     print()
