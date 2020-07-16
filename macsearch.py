@@ -1,12 +1,15 @@
 import nmap
+import time
 
 # http://iltabiai.github.io/home%20automation/2015/09/11/npm-roommates.html
 
 class Person:
     def __init__(self, name, MAC, disconnectedloops=-1):
         self.name = name
-        self.disconnectedloops = disconnectedloops
+        self.disconnectedloops = disconnectedloops # make this -1
         self.MAC = MAC
+        self.connection_time = -1
+        self.disconnect_time = -1
 
 known_macs = {
     '18:F1:D8:96:AC:AD' : 'Tucker',
@@ -72,34 +75,44 @@ while True:
     # The issue is that once you go into the active people list, you never get out.
     for person in people:
         if person.MAC in connected_macs:
-            if person.disconnectedloops > 10 or person.disconnectedloops == -1:
+            if time.time() - person.disconnect_time >= 120 or person.connection_time == -1:
+                # start connected timer
+                person.connection_time = time.time()
+
                 # meaning they've been disconnected for a while or have never connected, so notify that they've connected
                 # possibly send a text, an email, some sort of alert when a specified mac address is connected 
-                pass
 
-            person.disconnectedloops = 0
+                person.disconnectedloops = 0
 
             if person not in active_people:
                 active_people.append(person)
 
             if person in away_people:
                 away_people.remove(person)
-            # print('{} is connected'.format(person.name))
         else:
-            if person.disconnectedloops > 10:
-                if person not in away_people:
-                    active_people.remove(person)
-                    away_people.append(person)
-            person.disconnectedloops += 1
-            # print('{} has been disconnected for {} loops'.format(person.name, person.disconnectedloops))
+            # Start disconnect timer ONLY if they're leaving the active people list, so that the disconnect is still -1
+            # They must be connected for at least 2 minutes to be disconnected
+            # if person in active_people and time.time() - person.connection_time >= 120:
+                # person.disconnect_time = time.time()
+
+            # Then remove them
+            if person not in away_people and time.time() - person.connection_time >= 120:
+                person.disconnect_time = time.time()
+                active_people.remove(person)
+                away_people.append(person)
 
     print('Connected Users:')
     for person in active_people:
-        print(person.name)
+        print('{} last pinged at {}'.format(person.name, time.ctime(person.connection_time)))
+
+    print()
 
     print('Disconnected Users:')
     for person in away_people:
-        print(person.name)
+        if person.connection_time == -1 and person.disconnect_time == -1:
+            print('{} has not connected since script began'.format(person.name))
+        else:
+            print('{} disconnected for {} seconds'.format(person.name, time.time() - person.disconnect_time))
 
     print()
     print()
