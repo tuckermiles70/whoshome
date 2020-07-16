@@ -48,9 +48,7 @@ nm = nmap.PortScanner()
 
 # Took 1:38 for 10 iterations
 # need to figure out how I should remove people from active list when signal hasn't been received in a while
-iteration = 1
 while True:
-    print('Iteration {}'.format(iteration))
     nm.scan(hosts = '10.0.0.180/24', arguments = '-sn')
 
 
@@ -66,11 +64,11 @@ while True:
             # print("MAC {} is connected".format(mac))
             connected_macs.append(mac)
 
-    print('Post nmap search registered users in connected_macs on this iteration:\n')
-    for person in people:
-        if person.MAC in connected_macs:
-            print(person.name)
-    print()
+    # print('Post nmap search registered users in connected_macs on this iteration:\n')
+    # for person in people:
+    #     if person.MAC in connected_macs:
+    #         print(person.name)
+    # print()
 
     # The issue is that once you go into the active people list, you never get out.
     for person in people:
@@ -85,6 +83,7 @@ while True:
                 person.disconnectedloops = 0
 
             if person not in active_people:
+                person.connection_time = time.time()
                 active_people.append(person)
 
             if person in away_people:
@@ -112,8 +111,9 @@ while True:
         if person.connection_time == -1 and person.disconnect_time == -1:
             print('{} has not connected since script began'.format(person.name))
         else:
-            print('{} disconnected for {} seconds'.format(person.name, time.time() - person.disconnect_time))
+            print('{} has been disconnected for {} seconds'.format(person.name, time.time() - person.disconnect_time))
 
     print()
     print()
-    iteration += 1
+
+    time.sleep(10)
