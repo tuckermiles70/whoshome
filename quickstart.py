@@ -5,8 +5,31 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
+from email.mime.text import MIMEText
+import base64
+
+
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+SCOPES = ['https://mail.google.com/']
+
+def create_message(sender, to, subject, message_text):
+  message = MIMEText(message_text)
+  message['to'] = to
+  message['from'] = sender
+  message['subject'] = subject
+  raw_message = base64.urlsafe_b64encode(message.as_string().encode("utf-8"))
+  return {
+    'raw': raw_message.decode("utf-8")
+  }
+
+def send_message(service, user_id, message):
+  try:
+    message = service.users().messages().send(userId=user_id, body=message).execute()
+    print('Message Id: %s' % message['id'])
+    return message
+  except Exception as e:
+    print('An error occurred: %s' % e)
+    return None
 
 def main():
     """Shows basic usage of the Gmail API.
@@ -43,6 +66,10 @@ def main():
         print('Labels:')
         for label in labels:
             print(label['name'])
+
+    # https://blog.mailtrap.io/send-emails-with-gmail-api/#Step_8_Send_an_email
+    message = create_message("tmiles7@vols.utk.edu", "tmiles7@vols.utk.edu", "Subject", "Message Body!")
+    send_message(service, "tmiles7@vols.utk.edu", message)
 
 if __name__ == '__main__':
     main()
