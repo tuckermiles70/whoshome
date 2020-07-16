@@ -78,7 +78,7 @@ while True:
                 person.connection_time = time.time()
 
                 # meaning they've been disconnected for a while or have never connected, so notify that they've connected
-                # possibly send a text, an email, some sort of alert when a specified mac address is connected 
+                # possibly send a text, an email, some sort of alert when a specified mac address is connected. Maybe eventually add image fromip cam that gets sent with email
 
                 person.disconnectedloops = 0
 
