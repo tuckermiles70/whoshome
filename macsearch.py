@@ -1,6 +1,8 @@
 import nmap
 import time
 
+from emailtest import em_send
+
 # http://iltabiai.github.io/home%20automation/2015/09/11/npm-roommates.html
 
 class Person:
@@ -79,12 +81,17 @@ while True:
 
                 # meaning they've been disconnected for a while or have never connected, so notify that they've connected
                 # possibly send a text, an email, some sort of alert when a specified mac address is connected. Maybe eventually add image fromip cam that gets sent with email
+                
+
 
                 person.disconnectedloops = 0
 
             if person not in active_people:
                 person.connection_time = time.time()
                 active_people.append(person)
+
+                # I only want to send this if person has been disconnected for a while
+                em_send(person.name)
 
             if person in away_people:
                 away_people.remove(person)
@@ -93,6 +100,8 @@ while True:
             # They must be connected for at least 2 minutes to be disconnected
             # if person in active_people and time.time() - person.connection_time >= 120:
                 # person.disconnect_time = time.time()
+
+            # Maybe send email for when someone leaves too?
 
             # Then remove them
             if person not in away_people and time.time() - person.connection_time >= 120:
