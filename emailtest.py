@@ -1,11 +1,12 @@
 import smtplib
-from config import ema, emp, email_list
+from config import email_address, email_password, email_list
 
-EMAIL_ADDRESS = ema
-EMAIL_PASSWORD = emp
+EMAIL_ADDRESS = email_address
+EMAIL_PASSWORD = email_password
 
 def em_send(name):
 
+    # Send notification to each person as specified in config
     for recipient in email_list:
 
     # https://www.youtube.com/watch?v=JRCJ6RtE3xU
@@ -25,5 +26,4 @@ def em_send(name):
             msg = f'Subject: {subject}\n\n{body}'
 
             # Sender, receiver, message as parameters
-            # Just send to myself for now
             smtp.sendmail(EMAIL_ADDRESS, recipient, msg)

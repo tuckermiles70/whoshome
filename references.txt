@@ -4,6 +4,9 @@ https://www.studytonight.com/network-programming-in-python/integrating-port-scan
 
 https://www.programiz.com/python-programming/time
 
+# https://askubuntu.com/questions/377787/how-to-scan-an-entire-network-using-nmap
+
+
 be sure to show how to install nmap and stuff. SO dar I have installed:
 1. nmap installed on pc (https://nmap.org/book/inst-windows.html) and on pip ("pip install python-nmap")
 
