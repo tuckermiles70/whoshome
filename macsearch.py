@@ -55,7 +55,7 @@ while True:
 
     for person in people:
         if person.MAC in connected_macs:
-            if time.time() - person.disconnect_time >= 120 or person.connection_time == -1:
+            if time.time() - person.disconnect_time >= 3600 or person.connection_time == -1:
                 # start connected timer
                 person.connection_time = time.time()
 
@@ -75,7 +75,7 @@ while True:
             # They must be connected for at least 2 minutes to be disconnected
 
             # Then remove them
-            if person not in away_people and time.time() - person.connection_time >= 120:
+            if person not in away_people and time.time() - person.connection_time >= 3600:
                 person.disconnect_time = time.time()
                 active_people.remove(person)
                 away_people.append(person)
