@@ -6,7 +6,7 @@ Who's home is a tool for polling your home's local network and sending an alert 
 
 ## Setup
 
-Your computer must have the Nmap security Scanner for Linux/Mac which you can download [here](https://nmap.org/download.html). You must also have a Gmail account with 2-step verification setup in order to send the email alerts. Since this application does not support 2-Step verification, you must create an app password in order to authenticate with the Gmail account. You can simply do that [here](http://myaccount.google.com/apppasswords). Once this is done, create a file named ```config.py``` as below. You must have ```alertemail.py```, ```config.py```, and ```macsearch.py``` in the same directory.
+Your computer must have the Nmap security Scanner for Linux/Mac which you can download [here](https://nmap.org/download.html). You must also have a Gmail account with 2-step verification setup in order to send the email alerts. Since this application does not support 2-Step verification, you must create an app password in order to authenticate with the Gmail account. You can simply do that [here](http://myaccount.google.com/apppasswords). Once this is done, create edit ```config.py``` as below. You must have ```alertemail.py```, ```config.py```, and ```macsearch.py``` in the same directory.
 
 ```python
 email_address = "SendingGmailAccount@Gmail.com"
