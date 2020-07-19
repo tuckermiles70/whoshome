@@ -1,1 +1,0 @@
-must mention how you need to use gmail accound with 2fa turned on and the special password thing created and used for password in config.py
