@@ -2,7 +2,7 @@
 
 ## About
 
-Who's home is a tool for polling your home's local network and sending an alert whenever someone arrives. Simply install the necessary components, configurate as shown below, and you're off! This tool associates MAC addressed with people, and when a certain MAC is detected as being connected to your network, it alerts that the associated person has arrived. It keeps track of how long since the user's device has last pinged on the network, and after an hour of no connection, that user is no longer considered as being home.
+Who's home is a tool for polling your home's local network and sending an alert whenever someone arrives. Simply install the necessary components, configurate as shown below, and you're off! This tool associates MAC addresses with people, and when a certain MAC is detected as being connected to your network, it alerts that the associated person has arrived. It keeps track of how long since the user's device has last pinged on the network, and after an hour of no connection, that user is no longer considered as being home.
 
 ## Setup
 
